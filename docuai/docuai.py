@@ -275,7 +275,7 @@ class DocuAI:
                     return {"error": "Could not process image file"}
                 
                 message = client.messages.create(
-                    model="claude-3-sonnet-20240229",
+                    model="claude-3-5-sonnet-20241022",
                     max_tokens=4000,
                     temperature=0.1,
                     messages=[{
@@ -308,7 +308,7 @@ class DocuAI:
                 result = json.loads(json_str)
                 result["_analysis_timestamp"] = datetime.now().isoformat()
                 result["_api_usage"] = {
-                    "model": "claude-3-sonnet-20240229",
+                    "model": "claude-3-5-sonnet-20241022",
                     "input_tokens": message.usage.input_tokens,
                     "output_tokens": message.usage.output_tokens
                 }
