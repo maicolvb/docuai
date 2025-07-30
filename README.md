@@ -1,4 +1,8 @@
-[![Banner](ADUFACIL_BANNER.png)](https://adufacil-ia.streamlit.app/)
+<p align="center">
+  <a href="https://adufacil-ia.streamlit.app" target="_blank">
+    <img src="https://raw.githubusercontent.com/maicolvb/docuai/main/docuai/ADUFACIL_BANNER.png" alt="Adufacil.ia Banner"/>
+  </a>
+</p>
 
 
 # 📋 Adufacil.ia - Customs Document Analyzer
