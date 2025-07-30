@@ -142,8 +142,7 @@ DocuAI is an intelligent document analysis tool designed specifically for custom
 
 ```
 docuai/
-├── docuai.py           # Main Streamlit application
-├── adufacil.py         # Alternative version with simplified UI
+├── adufacil.py         # original version
 ├── requirements.txt    # Python dependencies
 ├── .gitignore         # Git ignore rules
 ├── README.md          # This file
