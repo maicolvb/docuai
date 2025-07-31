@@ -1,4 +1,16 @@
 import streamlit as st
+
+def authenticate():
+    st.title("🔐 Adufacil.ia - Access Restricted")
+    st.info("This app is protected. Contact the developer to request access.")
+
+    password = st.text_input("Enter access password:", type="password")
+    if password != "demo123":
+        st.warning("Access denied. Please contact the developer.")
+        st.stop()
+
+authenticate()
+
 import base64
 import json
 from typing import Dict, Any, Optional
