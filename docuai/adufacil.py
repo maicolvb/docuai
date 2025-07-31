@@ -97,7 +97,7 @@ def analyze_document(file, document_type: str, api_key: str) -> Dict[str, Any]:
         if file.type == "application/pdf":
             pdf_text = extract_pdf_text(file)
             message = client.messages.create(
-                model="claude-3-haiku-20240626"
+                model="claude-3-haiku-20240626",
                 max_tokens=4000,
                 messages=[{
                     "role": "user",
