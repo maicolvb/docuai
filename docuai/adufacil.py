@@ -99,6 +99,7 @@ def analyze_document(file, document_type: str, api_key: str) -> Dict[str, Any]:
             message = client.messages.create(
                 model="claude-3-sonnet-20240620",
                 max_tokens=4000,
+                temperature=0.2,
                 messages=[{
                     "role": "user",
                     "content": f"{prompt}\n\nDocument text:\n{pdf_text}"
@@ -107,8 +108,9 @@ def analyze_document(file, document_type: str, api_key: str) -> Dict[str, Any]:
         else:
             image_base64 = encode_image(file)
             message = client.messages.create(
-                model="claude-3-sonnet-20240620",
+                model="claude-3-haiku-20240626",
                 max_tokens=4000,
+                temperature=0.2,
                 messages=[{
                     "role": "user",
                     "content": [
