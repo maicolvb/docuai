@@ -11,6 +11,7 @@ def authenticate():
 
 authenticate()
 
+
 import base64
 import json
 from typing import Dict, Any, Optional
@@ -96,7 +97,7 @@ def analyze_document(file, document_type: str, api_key: str) -> Dict[str, Any]:
         if file.type == "application/pdf":
             pdf_text = extract_pdf_text(file)
             message = client.messages.create(
-                model="claude-3-haiku-20240307",
+                model="claude-3-opus-20240229",
                 max_tokens=4000,
                 messages=[{
                     "role": "user",
@@ -106,7 +107,7 @@ def analyze_document(file, document_type: str, api_key: str) -> Dict[str, Any]:
         else:
             image_base64 = encode_image(file)
             message = client.messages.create(
-                model="claude-3-haiku-20240307",
+                model="claude-3-opus-20240229",
                 max_tokens=4000,
                 messages=[{
                     "role": "user",
