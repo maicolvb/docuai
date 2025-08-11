@@ -1,0 +1,51 @@
+{
+  "name": "adufacil.ia",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && npm run build:check",
+    "build:check": "echo '✅ Build completed successfully'",
+    "start": "next start",
+    "lint": "next lint --fix",
+    "lint:check": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "echo 'No tests configured yet'",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:prod": "vercel --prod",
+    "env:setup": "cp .env.local.example .env.local",
+    "health": "curl -s localhost:3000/api/health | jq",
+    "logs": "vercel logs",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook/stripe",
+    "db:migrate": "echo 'Run Supabase migrations'",
+    "db:seed": "echo 'Seed database with sample data'"
+  },
+  "dependencies": {
+    "@google-cloud/vision": "^5.3.3",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.53.0",
+    "axios": "^1.11.0",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.536.0",
+    "next": "15.4.5",
+    "pdfkit": "^0.17.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-dropzone": "^14.3.8",
+    "react-hot-toast": "^2.5.2",
+    "zod": "^4.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/pdfkit": "^0.17.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9.33.0",
+    "eslint-config-next": "^15.4.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
