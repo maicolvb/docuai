@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/app/contexts/AuthContext';
+import { useAuth } from '@/app/contexts/SimpleAuthContext';
 import { CreditCard, Smartphone, Building, Zap, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 
 export default function PayUCheckout({ selectedPlan, onSuccess, onCancel }) {

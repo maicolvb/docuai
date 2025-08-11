@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/app/contexts/AuthContext';
+import { useAuth } from '@/app/contexts/SimpleAuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import MainDashboard from '@/components/features/Dashboard/MainDashboard';

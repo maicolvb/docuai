@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, FileText, Camera, Loader, CheckCircle, AlertTriangle, X } from 'lucide-react';
-import { useAuth } from '@/app/contexts/AuthContext';
+import { useAuth } from '@/app/contexts/SimpleAuthContext';
 
 export default function DocumentUpload({ onProcessComplete }) {
   const { user } = useAuth();
