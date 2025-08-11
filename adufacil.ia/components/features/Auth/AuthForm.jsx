@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase/client';
+import { useAuth } from '@/app/contexts/SimpleAuthContext';
 import { Mail, Lock, User, Building, Phone, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 export default function AuthForm({ mode = 'signin', onSuccess }) {
+  const { signUp, signIn, signInWithGoogle } = useAuth();
   const [formMode, setFormMode] = useState(mode); // 'signin' | 'signup'
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -31,41 +32,29 @@ export default function AuthForm({ mode = 'signin', onSuccess }) {
     try {
       if (formMode === 'signup') {
         // Registro de usuario
-        const { data, error } = await supabase.auth.signUp({
+        const result = await signUp({
           email: formData.email,
           password: formData.password,
-          options: {
-            data: {
-              first_name: formData.firstName,
-              last_name: formData.lastName,
-              company_name: formData.companyName,
-              phone: formData.phone,
-              business_type: formData.businessType,
-              company_size: formData.companySize
-            }
-          }
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          companyName: formData.companyName,
+          phone: formData.phone,
+          businessType: formData.businessType,
+          companySize: formData.companySize
         });
 
-        if (error) throw error;
-
-        if (data.user && !data.user.email_confirmed_at) {
-          setMessage('¡Registro exitoso! Revisa tu email para confirmar tu cuenta.');
-        } else {
-          setMessage('¡Cuenta creada exitosamente!');
-          if (onSuccess) onSuccess(data.user);
-        }
+        setMessage('¡Registro exitoso! Revisa tu email para confirmar tu cuenta.');
+        if (onSuccess) onSuccess(result.user);
 
       } else {
         // Inicio de sesión
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const result = await signIn({
           email: formData.email,
           password: formData.password
         });
 
-        if (error) throw error;
-
         setMessage('¡Bienvenido de vuelta!');
-        if (onSuccess) onSuccess(data.user);
+        if (onSuccess) onSuccess(result.user);
       }
 
     } catch (error) {
@@ -89,14 +78,8 @@ export default function AuthForm({ mode = 'signin', onSuccess }) {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`
-        }
-      });
-
-      if (error) throw error;
+      const result = await signInWithGoogle();
+      if (onSuccess) onSuccess(result.user);
     } catch (error) {
       setError('Error al conectar con Google');
     } finally {
