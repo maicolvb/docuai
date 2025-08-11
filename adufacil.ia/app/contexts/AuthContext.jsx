@@ -23,45 +23,61 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Obtener sesión inicial
     const getInitialSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Error getting session:', error);
-      }
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error && error.message !== 'Demo mode - authentication disabled') {
+          console.error('Error getting session:', error);
+        }
 
-      if (session?.user) {
-        setUser(session.user);
-        await loadUserProfile(session.user.id);
+        if (session?.user) {
+          setUser(session.user);
+          await loadUserProfile(session.user.id);
+        }
+      } catch (error) {
+        console.error('Error in getInitialSession:', error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     getInitialSession();
 
     // Escuchar cambios de autenticación
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth event:', event);
+    try {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          console.log('Auth event:', event);
 
-        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          setUser(session?.user || null);
-          if (session?.user) {
-            await loadUserProfile(session.user.id);
+          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+            setUser(session?.user || null);
+            if (session?.user) {
+              await loadUserProfile(session.user.id);
+            }
           }
+
+          if (event === 'SIGNED_OUT') {
+            setUser(null);
+            setProfile(null);
+            if (typeof window !== 'undefined') {
+              router.push('/auth');
+            }
+          }
+
+          setLoading(false);
         }
+      );
 
-        if (event === 'SIGNED_OUT') {
-          setUser(null);
-          setProfile(null);
-          router.push('/auth');
+      return () => {
+        if (subscription && subscription.unsubscribe) {
+          subscription.unsubscribe();
         }
-
-        setLoading(false);
-      }
-    );
-
-    return () => subscription.unsubscribe();
+      };
+    } catch (error) {
+      console.error('Error setting up auth listener:', error);
+      setLoading(false);
+      return () => {};
+    }
   }, [router]);
 
   const loadUserProfile = async (userId) => {
